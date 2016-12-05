@@ -10,4 +10,9 @@ tabItem.fromicebergstotrees<-tabItem(
     )
     ,column(1)
   )
+  ,fluidRow(
+    img(src='rplot2.png', align = "center")
+    #imageOutput("rplot2.png")
+    
+  )
 )

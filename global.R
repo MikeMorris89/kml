@@ -3,6 +3,12 @@
  library(plotly)
  library(shinydashboard)
  library(reshape)
+ library(rpart)
+ library(rattle)
+ library(rpart.plot)
+ library(RColorBrewer)
+ library(RGtk2)
+ library(ggplot2)
 
 #  train_url <- "http://s3.amazonaws.com/assets.datacamp.com/course/Kaggle/train.csv"
 #  train <- read.csv(train_url)

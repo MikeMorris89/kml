@@ -1,14 +1,14 @@
 dashboardHeader.main<-dashboardHeader(
-  title = "Dashboard Demo"
+  title = "Kaggle Machine Learning"
   
   # Dropdown menu for messages
   ,dropdownMenu(type = "messages", badgeStatus = "success",
                messageItem("Support Team",
-                           "This is the content of a message.",
+                           "This is the content of an example message.",
                            time = "5 mins"
                ),
                messageItem("Support Team",
-                           "This is the content of another message.",
+                           "This is the content of another example message.",
                            time = "2 hours"
                ),
                messageItem("New User",
