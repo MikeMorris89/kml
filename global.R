@@ -1,8 +1,8 @@
-# library(shiny)
-# library(randomForest)
-# library(plotly)
-# library(shinydashboard)
-# library(reshape)
+ library(shiny)
+ library(randomForest)
+ library(plotly)
+ library(shinydashboard)
+ library(reshape)
 
 #  train_url <- "http://s3.amazonaws.com/assets.datacamp.com/course/Kaggle/train.csv"
 #  train <- read.csv(train_url)
