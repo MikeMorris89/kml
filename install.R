@@ -9,3 +9,4 @@ install.packages('randomForest', dep=T) # classification algorithm
 install.packages('shinydashboard', dep=T) # classification algorithm
 install.packages('reshape', dep=T) # classification algorithm
 install.packages('rpart', dep=T) # classification algorithm
+install.packages('htmlwidgets', dep=T) # classification algorithm
