@@ -4,7 +4,7 @@
  library(shinydashboard)
  library(reshape)
  library(rpart)
- library(rattle)
+ #library(rattle)
  library(rpart.plot)
  library(RColorBrewer)
  library(RGtk2)
