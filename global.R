@@ -19,8 +19,8 @@
 
 # save(train,file = "train.rdata")
 # save(test,file = "test.rdata")
-options(shiny.trace = TRUE)
-save.image(file="titanic.RData")
+#options(shiny.trace = TRUE)
+#save.image(file="titanic.RData")
 
 load(file="titanic.RData")
 
