@@ -65,17 +65,8 @@ set.method.for.my.pred<-function(data.set,col.predict){
 }
 
 find.test.train.columns<-function(data){
-  return(names(data)[which(
-    apply(data,MARGIN=2,function(x){
-      return(length(grep("test|train",x,ignore.case=TRUE))>0)
-    })
-  )]
-  )
+  return(find.columns.with.pattern(data,"test|train"))
 }
-is.empty<-function(value){
-  return(length(value)>0)
-}
-#find.test.train.columns()
 
 setDataset<-function(dataset){
   sc.data<-get(dataset,envir = .GlobalEnv)
@@ -350,7 +341,7 @@ setdefaultpram<-function(dataset="titanic_all_data"){
   }
 }
 
-setupData <- function(trainpercent
+setupData<-function(trainpercent
                       ,randomseed
                       ,dataset
                       ,cols.exclude
@@ -366,13 +357,6 @@ setupData <- function(trainpercent
                       ){
   myinputs<-list(match.call())
   
-  # if(is.na(col.predict))
-  #   missinginputs<-
-  # if(is.na(col.case.selected))
-  #   exit
-  # 
-  
-  
   # Make sure computations can be reproducible.
   set.seed(randomseed)
   sc.data<-setDataset(dataset)
@@ -386,8 +370,6 @@ setupData <- function(trainpercent
   assign("rpt.review.missing.pre",review.missing(sc.data),envir = .GlobalEnv)
   sc.data<-formatDataset(sc.data,colssplittext,colssplitnumb,colstxtasnumb,selectpctna,nearzero)
   assign("rpt.review.missing.post",review.missing(sc.data),envir = .GlobalEnv)
-  
-  head(sc.data)
   
   sc.data$my.pred<-sc.data.pred
   sc.data$my.pred<-as.factor(sc.data$my.pred)
@@ -521,17 +503,6 @@ responseRoutine <- function(method
 }
 
 
-my.rmse<-function(prediction,response){
-  if(class(levels(prediction))=="character" && length(levels(prediction))==2)
-  {
-    my.result<-sqrt(mean((unclass(prediction)-unclass(response))^2))
-  }else{
-    my.result<-sqrt(mean((prediction-response)^2))
-  }
-  return(my.result)
-}
-#my.rmse(prediction,response)
-
 
 
 #response<-responseRoutine()$response
@@ -587,45 +558,6 @@ plot.confusion <-function(confusion){
   plot <-plot + geom_text(aes(x=Prediction, y=Reference, label = sprintf("%1.0f", Freq)), vjust = 1)
   return(plot)
 }
-
-HELP.HTML <<- paste(
-  'This Shiny app uses techniques described in the Coursera <a',
-  'href="https://www.coursera.org/course/predmachlearn"><i>Practical',
-  'Machine Learning</i></a> class.<br>',
-  '<hr> <b>Concept</b>:&nbsp; Use interactive interface to select',
-  'machine learning parameters for the <a',
-  'href="http://caret.r-forge.r-project.org/">caret package</a> to',
-  'solve a problem involving image segmentation.&nbsp; This interactive',
-  'interface may provide insights on best machine learning approach for',
-  'a given problem.&nbsp; Future:&nbsp; perhaps with small set of',
-  'metadata, the approach could be used with a variety of problems and',
-  'datasets.<br><br>',
-  'To see data:  library(AppliedPredictiveModeling) and then',
-  'data(segmentationOriginal).<br><br>',
-  'Some variables with near-zero variance and/or high correlation to',
-  'other variables have been removed.',
-  '<hr> <b>Inputs</b>:&nbsp; At the left, select various preprocessing',
-  'options and caret method.<br>',
-  '<br>',
-  '<b>Fit tab</b>:&nbsp; Output from caret train function applied to',
-  'subset of original training data.<br>',
-  '<br>',
-  '<b>ConfusionMatrix tab</b>:&nbsp; Confusion matrix, sensitivity,',
-  'specificity and related data from caret confusionMatrix function',
-  'applied to an out-of-sample validation dataset. Use to compare',
-  'models.&nbsp; [A final test set is reserved and is not used in the',
-  'current implementation.]<br>',
-  '<br>',
-  '<b>DotPlot tab</b>:&nbsp; dotPlot using output from caret varImp',
-  'function that gives importance rankings of variables included in the',
-  'fit.<br>',
-  '<hr> <b>Reference</b>:&nbsp; Andrew A Hill, Peter LaPan, Yizheng Li',
-  'and Steve Haney.&nbsp; <a',
-  'href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2080643/">Impact',
-  'of image segmentation on high-content screening data quality for',
-  'SK-BR-3 cells</a>, <i>BMC Bioinformatics</i>, Sept. 2007.')
-html.note<-paste("Note:  Approximate processing times above are for a 2.4 GHz Intel i7-3630QM CPU.",
-                 "All models work on a local server, but only lda and rpart work at shinyapps.io.")
 
 
 
