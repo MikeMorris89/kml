@@ -138,7 +138,35 @@ shinyServer(function(input, output, session) {
     )
         #lbl("END : data.shinycaret <- reactive")
   })
+
   # Fill-in the tabs with output from caret
+  data.caretmethods <- reactive({
+        set.method.for.my.pred(dataset=input$selectdata,col.predict=input$uiselectpredict)
+  })
+  
+  # observe({
+  #   
+  #   input$allmethods
+  #   
+  #   MY
+  #   
+  #   insertUI(
+  #     selector = '#placeholder',
+  #     ## wrap element in a div with id for ease of removal
+  #     ui =  selectInput(inputId = ,"Insert some text")
+  #     )
+  #   )
+  #   inserted <<- c(id, inserted)
+  #   
+  #   RemoveUI(
+  #     ## pass in appropriate div id
+  #     selector = paste0('#', inserted[length(inserted)])
+  #   )
+  #   inserted <<- inserted[-length(inserted)]
+  # 
+  # })
+      
+
   
   output$fit <- renderPrint({
     if (input$goButton == 0)
@@ -315,6 +343,16 @@ shinyServer(function(input, output, session) {
     
   })
   
+
+  output$vtomethod <- renderPrint({
+    if(exists("my.models",envir = .GlobalEnv) && length(input$uiselectpredict) != 0)
+    {
+      get("my.pred.method",envir = .GlobalEnv)
+    }else{
+      print(input$uiselectpredict)
+    } 
+    
+  })
   # observeEvent(input$uiselecttxtasnumb, ({
   # updateSelectInput(session, "uiselectnumb2split",
   #                   label = "Number Columns to split:",
@@ -337,6 +375,28 @@ shinyServer(function(input, output, session) {
   observeEvent(input$uiselectpredict, ({
     col.predict<-input$uiselectpredict
     assign("col.predict",col.predict,envir = .GlobalEnv)
+    
+    if(exists("my.models",envir = .GlobalEnv) && length(input$uiselectpredict) != 0)
+    {
+      my.models<-get("my.models",envir = .GlobalEnv)
+      my.models.meta<-get("my.models",envir = .GlobalEnv)
+      
+      updateSelectInput(session, "allmethods",
+                        label = "Select Method:",
+                        choices = my.models,
+                        selected = names(my.models)[1]
+      )
+      
+      
+      
+      # insertUI(
+      #   selector = '#placeholder',
+      #   ## wrap element in a div with id for ease of removal
+      #   ui =  selectInput(inputId = ,"Insert some text")
+      #   )
+      # )
+    }
+    
   }))
   
   observeEvent(input$btncreatecase, ({
@@ -413,4 +473,6 @@ shinyServer(function(input, output, session) {
   output$distTablemodals <- renderDataTable({
     create.dt(input$binsmodals)
   }, options = list(pageLength=10))
-})
+
+  
+   })

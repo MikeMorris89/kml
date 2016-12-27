@@ -26,21 +26,15 @@ tabItem.shinycaret<-
                    ,column(4,selectInput("uiselecttxtasnumb", "Text Columns to Use as Numbers:",c('LOADING'),multiple = TRUE))
                    )
                 ,fluidRow(
-                  column(6,selectInput("uiselectpredict", "Column to Predict:",c('LOADING'),multiple = TRUE))
-                  ,column(6,checkboxInput("centerscale", "Center and Scale Variables", TRUE))
-                  )
+                   column(4,selectInput("uiselectpredict", "Column to Predict:",c('LOADING')))
+                  ,column(4,verbatimTextOutput("vtomethod"))
+                  ,column(4,checkboxInput("centerscale", "Center and Scale Variables", TRUE)))
                 ,fluidRow(
-                  column(4,
-                  sliderInput("trainpercent",
+                  column(4,sliderInput("trainpercent",
                               "Fraction of data that goes to training",
-                              value = 0.75, step = 0.05, min = 0.50, max = 0.80)
-                  )
-                  ,column(4,
-                          checkboxInput("usedefault", "Use Default Train %", TRUE)
-                  )
-                  ,column(4,
-                          checkboxInput("colssplittext", "Split Text Columns", TRUE)
-                  )
+                              value = 0.75, step = 0.05, min = 0.50, max = 0.80))
+                  ,column(4,checkboxInput("usedefault", "Use Default Train %", TRUE))
+                  ,column(4,checkboxInput("colssplittext", "Split Text Columns", TRUE))
                   )
                   ,fluidRow(
                     column(4,
@@ -71,36 +65,32 @@ tabItem.shinycaret<-
                   ,column(4,selectInput("selectcororder", "CorOrder:",choicesCorOrder,selected = choicesCorOrder[4])
                   )
                 )
-                ,HTML("<hr>"),
-                radioButtons("method", h4("Caret Model"),choicesModel,selected = choicesModel[2]),
-                h6(html.note),
-                HTML("<hr>")
-              ),
-              
-              # Tab panels:
-              mainPanel(
+                ,HTML("<hr>")
+                ,selectInput("allmethods", h4("Caret Models"),choicesModel,selected = choicesModel[2])
+                ,tags$div(id = 'placeholderModelDetails') 
+                ,HTML("<hr>")
+                ,radioButtons("method", h4("Caret Model"),choicesModel,selected = choicesModel[2])
+                ,h6(html.note)
+                ,HTML("<hr>")
+              )
+              ,mainPanel(
                 tabsetPanel(type = "tabs",
                             tabPanel("Result",
                                      fluidRow(
                                        column(1),
-                                       column(5,
-                                              selectInput(inputId = "resultchart",label = "Select Chart"
+                                       column(5,selectInput(inputId = "resultchart",label = "Select Chart"
                                                           ,selected = "Categorical : Percent Matched"
-                                                          ,choices =choicesResult
-                                                            )
-                                       ),
-                                       column(5,
+                                                          ,choices =choicesResult))
+                                       ,column(5,
                                               label_context("Root Mean Squared Error"),
-                                              tags$br(id="rmseoutput",verbatimTextOutput("rmse"))
-                                       ),
-                                       column(1)
+                                              tags$br(id="rmseoutput",verbatimTextOutput("rmse")))
+                                       ,column(1)
                                      ),
                                      fluidRow(
                                        column(1)
                                        ,column(10,plotlyOutput("scresult"))
                                        ,column(1)
-                                     )
-                                     ,
+                                     ),
                                      fluidRow(
                                        column(1)
                                        ,column(10,d3heatmapOutput("sccor"))
@@ -126,10 +116,8 @@ tabItem.shinycaret<-
                                      ),
                             
                             tabPanel("Help",             HTML(HELP.HTML) )
-                )
-              )
-            )
-            
-            
-          )
+        )
+      )
+    )
   )
+)

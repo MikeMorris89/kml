@@ -1,27 +1,38 @@
+mypacks<-c("roxygen2"
+,'d3heatmap'
+,'shinyjs'
+,'AppliedPredictiveModeling'
+,'caret'
+,'pROC'
+,'plotly'
+,'ggplot2'
+,'ggthemes'
+,'scales'
+,'dplyr' # data manipulation
+,'mice' # imputation
+,'randomForest' # classification algorithm
+,'shinydashboard' # classification algorithm
+,'reshape' # classification algorithm
+,'rpart' # classification algorithm
+,'htmlwidgets' # classification algorithm
+,'rattle'
+,'rpart.plot'
+,'RGtk2'
+,'titanic'
+,'R6'
+,'RGtk2'
+#,'RevoScaleR'
+,'shinyBS'
+,"RDocumentation")
+install.packages(mypacks,dep=T)
+#library("RDocumentation")
 
-install.packages('d3heatmap',dep=T)
-install.packages('shinyjs',dep=T)
-install.packages('AppliedPredictiveModeling',dep=T)
-install.packages('caret',dep=T)
-install.packages('pROC',dep=T)
-install.packages('plotly', dep=T) # visualization
-install.packages('ggplot2', dep=T) # visualization
-install.packages('ggthemes', dep=T) # visualization
-install.packages('scales', dep=T) # visualization
-install.packages('dplyr', dep=T) # data manipulation
-install.packages('mice', dep=T) # imputation
-install.packages('randomForest', dep=T) # classification algorithm
-install.packages('shinydashboard', dep=T) # classification algorithm
-install.packages('reshape', dep=T) # classification algorithm
-install.packages('rpart', dep=T) # classification algorithm
-install.packages('htmlwidgets', dep=T) # classification algorithm
-install.packages('rattle', dep=T)
-install.packages('rpart.plot', dep=T)
-install.packages('RGtk2', dep=T)
-install.packages('titanic', dep=T)
-install.packages('R6', dep=T)
-install.packages('RGtk2', dep=T)
-#install.packages('RevoScaleR', dep=T)
-install.packages('shinyBS', dep=T)
-install.packages("RDocumentation")
-library("RDocumentation")
+install.packages("titanic")
+install.packages("logging",dep=T)
+
+library(devtools)
+install_github("mikemorris89/rmm")
+library(rmm)
+
+
+

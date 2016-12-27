@@ -34,6 +34,36 @@ set.case.meta<-function(sc.data){
 }
 #set.case.meta(sc.data)
 
+predict.method<-function(data){
+  data<-data[!is.na(data)]
+  data<-data[!is.null(data)]
+  if(is.numeric(data) && length(unique(data))!=2){
+    return("Regression")
+  }else if(is.factor(data) || is.character(data) || length(unique(data))==2){
+    return("Classification")
+  }else {
+    return("Data currently cannot be modeled")
+  }
+}
+
+# data.set="titanic_all_data"
+# col.predict="Survived"
+# set.method.for.my.pred(data.set,col.predict)$my.pred.method
+set.method.for.my.pred<-function(data.set,col.predict){
+  my.pred.method<-predict.method(setDataset(data.set)[,col.predict])
+  caret.models<-getModelInfo()
+  #caret.models.df<-modelLookup()
+  my.models.meta<-caret.models[grep(my.pred.method,caret.models)]
+  my.models<-names(my.models.meta)
+  my.models.label<-sapply(my.models.meta,function(x){x$label})
+  names(my.models)<-my.models.label
+  
+  assign("my.pred.method",my.pred.method,envir = .GlobalEnv)
+  assign("my.models.meta",my.models.meta,envir = .GlobalEnv)
+  assign("my.models",unique(my.models),envir = .GlobalEnv)
+  invisible(list(my.pred.method=my.pred.method,my.models.meta=my.models.meta,my.models=my.models))
+}
+
 find.test.train.columns<-function(data){
   return(names(data)[which(
     apply(data,MARGIN=2,function(x){
@@ -407,7 +437,7 @@ generic.fit <- function(method, trainingData, validationData, centerscale)
   
   #method<-'rpart'
   #names(getModelInfo())
-  rm(fit)
+  #rm(fit)
   fit.ew<-ew(
     fit <- train(my.pred ~ .,
                  data=trainingData,
@@ -502,44 +532,14 @@ my.rmse<-function(prediction,response){
 }
 #my.rmse(prediction,response)
 
+
+
 #response<-responseRoutine()$response
 #prediction<-responseRoutine()$prediction
 plot.results<-function(response,prediction,type="Categorical : percent matched"){
   my.colors<-c("dodgerblue","firebrick","dodgerblue","firebrick")
   assign("plot.response",response,envir = .GlobalEnv)
   assign("plot.prediction",prediction,envir = .GlobalEnv)
-  my.fit
-  my.OutOfSample
-  predict(my.fit, newdata=validationData)
-  OutOfSample  <- predict(fit, newdata=validationData)
-  td<-trainingData
-  # td$my.pred<-as.factor(ifelse(td$my.pred == 0, "No", "Yes"))
-  # str(td)
-  # lm
-  #td<-td[,lapply(td,class)!="factor"]
-  td$my.pred<-as.integer(trainingData$my.pred)
-  review.missing(td)
-  my.fit2<-caret::train(my.pred ~ .,
-        data=td,
-        preProcess=preprocess.methods, 
-        method="lm",
-        trControl = trainControl(
-          method = "cv", 
-          number = 2,
-          repeats = 0,
-          verboseIter = TRUE
-        ))
-  my.validationData<-validationData
-  my.validationData$my.pred<-as.integer(validationData$my.pred)
-  
-  OutOfSample  <- predict(my.fit2, newdata=my.validationData)
-  prediction<-OutOfSample
-  response<-validationData$my.pred
-  my.data<-data.frame(prediction = prediction
-                   ,truth = response
-                   ,Result=paste(response,mapply(prediction,response,FUN=function(x,y){if(x==y){ "matched"} else{"not matched"}}),sep=' ')
-                   )
-  my.data$i<-rownames(my.data)
   
   if(type=="Categorical : Percent Matched")
   {

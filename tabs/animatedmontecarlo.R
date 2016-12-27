@@ -79,28 +79,19 @@ iteratemc<-function(i=100){
   sub_df$i<-sub_df$Incrmt
   sub_df$set<-1
   sub_df$mean<-cumsum(sub_df$Probs)/cummax(sub_df$i)
-  
   sub_df$sd<-sapply(sub_df$i,function(x){
     probs<-sub_df[sub_df$i<=x,]$Probs
     my.mean<-sub_df[sub_df$i==x,]$mean
-    msq<-(probs-mean)^2
+    msq<-(probs-my.mean)^2
     my.mean.msq<-base::mean(msq)
     sqrt(my.mean.msq)
   })
-  str(sub_df)
   #ds <- plyr::ddply(sub_df, "set", plyr::summarise, mean = cummean(Probs), sd = cumsd(Probs))
-  
-  str(sub_df)
-  simul_plot <- ggplot(sub_df,aes(Probs,Incrmt),) + 
-    labs(x = "iterations", y = "Probabilities", title = "Monte Carlo Simulation") + ylim(c(0,0.4)) + 
-    geom_hline(yintercept = 0.25, colour = "red", linetype = "longdash")
-  #simul_plot
-  
   df <- data.frame(
     gp = sub_df$i
     ,y =as.numeric(sub_df$Probs)
   )
-  ds <- data.frame(
+  dfsd <- data.frame(
     gp = sub_df$i
     ,y =as.numeric(sub_df$Probs)
     ,mean = sub_df$mean
@@ -108,8 +99,8 @@ iteratemc<-function(i=100){
   )
   
   p<-ggplot() +
-    geom_point(data = df, aes(gp, y)) +
-    geom_point(data = ds, aes(gp, mean), colour = 'red', size = 3) + 
+    geom_point(data = dfsd, aes(gp, y)) +
+    geom_point(data = dfsd, aes(gp, mean), colour = 'red', size = 3) + 
     labs(x = "iterations", y = "Probabilities", title = "Monte Carlo Simulation")
     # geom_errorbar(
     #   data = ds,
