@@ -56,11 +56,10 @@ set.method.for.my.pred<-function(data.set,col.predict){
   my.models.meta<-caret.models[grep(my.pred.method,caret.models)]
   my.models<-names(my.models.meta)
   my.models.label<-sapply(my.models.meta,function(x){x$label})
-  names(my.models)<-my.models.label
-  
+  names(my.models)<-paste(names(my.models.label),": ",my.models.label,sep="")
   assign("my.pred.method",my.pred.method,envir = .GlobalEnv)
   assign("my.models.meta",my.models.meta,envir = .GlobalEnv)
-  assign("my.models",unique(my.models),envir = .GlobalEnv)
+  assign("my.models",my.models,envir = .GlobalEnv)
   invisible(list(my.pred.method=my.pred.method,my.models.meta=my.models.meta,my.models=my.models))
 }
 

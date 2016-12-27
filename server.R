@@ -139,10 +139,7 @@ shinyServer(function(input, output, session) {
         #lbl("END : data.shinycaret <- reactive")
   })
 
-  # Fill-in the tabs with output from caret
-  data.caretmethods <- reactive({
-        set.method.for.my.pred(dataset=input$selectdata,col.predict=input$uiselectpredict)
-  })
+
   
   # observe({
   #   
@@ -345,7 +342,9 @@ shinyServer(function(input, output, session) {
   
 
   output$vtomethod <- renderPrint({
-    if(exists("my.models",envir = .GlobalEnv) && length(input$uiselectpredict) != 0)
+    print(exists("my.models",envir = .GlobalEnv))
+    print(is.empty(input$uiselectpredict))
+    if(exists("my.models",envir = .GlobalEnv) && is.empty(input$uiselectpredict))
     {
       get("my.pred.method",envir = .GlobalEnv)
     }else{
@@ -375,6 +374,12 @@ shinyServer(function(input, output, session) {
   observeEvent(input$uiselectpredict, ({
     col.predict<-input$uiselectpredict
     assign("col.predict",col.predict,envir = .GlobalEnv)
+    
+    # Fill-in the tabs with output from caret
+    #data.caretmethods <- reactive({
+    if(input$uiselectpredict!="LOADING")
+      set.method.for.my.pred(input$selectdata,input$uiselectpredict)
+    #})
     
     if(exists("my.models",envir = .GlobalEnv) && length(input$uiselectpredict) != 0)
     {

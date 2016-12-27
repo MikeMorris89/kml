@@ -2,12 +2,12 @@
 # options(shiny.trace = FALSE)
 # options(shiny.reactlog=FALSE)
 # options(shiny.fullstacktrace = FALSE)
-# options(shiny.error = browser)
-options(shiny.error = recover)
+#options(shiny.error = browser)
+#options(shiny.error = recover)
 #basicConfig()
 
-options(shiny.error = function() { 
-  logging::logerror(sys.calls() %>% as.character %>% paste(collapse = ", ")) })
+#options(shiny.error = function() { 
+#  logging::logerror(sys.calls() %>% as.character %>% paste(collapse = ", ")) })
 
 #install_github("mikemorris89/rmm")
 library(rmm)
